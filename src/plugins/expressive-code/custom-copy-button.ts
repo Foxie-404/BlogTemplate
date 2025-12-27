@@ -5,173 +5,16 @@ import type { Element } from "hast";
 export function pluginCustomCopyButton() {
     return definePlugin({
         name: "Custom Copy Button",
-        baseStyles: () => `
-            .copy-btn {
-                position: absolute;
-                top: 0.5rem;
-                right: 0.5rem;
-                z-index: 10;
-                padding: 0.25rem;
-                background: var(--code-bg);
-                border: none;
-                border-radius: 0.25rem;
-                cursor: pointer;
-                opacity: 0;
-                transition: all 0.2s ease;
-                color: var(--code-text);
-            }
-
-            .copy-btn:hover {
-                background: var(--code-bg-hover);
-                opacity: 1;
-            }
-
-            .copy-btn:active {
-                background: var(--code-bg-active);
-            }
-
-            .frame:hover .copy-btn {
-                opacity: 1;
-            }
-
-            .copy-btn-icon {
-                width: 0.75rem;
-                height: 0.75rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .copy-btn svg {
-                width: 100%;
-                height: 100%;
-                fill: currentColor;
-            }
-
-            .copy-btn .success-icon {
-                display: none;
-            }
-
-            .copy-btn.success .copy-icon {
-                display: none;
-            }
-
-            .copy-btn.success .success-icon {
-                display: block;
-            }
-
-            .copy-btn.success {
-                color: var(--primary);
-            }
-
-            /* 移动端优化：使用触摸事件而不是始终显示 */
-            @media (hover: none) {
-                .frame.touch-active .copy-btn {
-                    opacity: 1;
-                }
-            }
-        `,
-        jsModules: [`
-            // Copy button functionality
-            document.addEventListener('DOMContentLoaded', function() {
-                function initializeCopyButtons() {
-                    const copyButtons = document.querySelectorAll('.copy-btn:not([data-initialized])');
-
-                    copyButtons.forEach(button => {
-                        button.addEventListener('click', async function() {
-                            const codeBlock = this.closest('pre');
-                            if (!codeBlock) return;
-
-                            const code = codeBlock.querySelector('code');
-                            if (!code) return;
-
-                            try {
-                                await navigator.clipboard.writeText(code.textContent || '');
-
-                                // Show success state
-                                this.classList.add('success');
-
-                                // Reset after 2 seconds
-                                setTimeout(() => {
-                                    this.classList.remove('success');
-                                    // 在移动端，复制成功后也重置touch-active状态
-                                    const frame = this.closest('.frame');
-                                    if (frame && window.matchMedia('(hover: none)').matches) {
-                                        frame.classList.remove('touch-active');
-                                    }
-                                }, 2000);
-
-                            } catch (err) {
-                                console.error('Failed to copy code:', err);
-                            }
-                        });
-
-                        // 在移动端添加触摸事件支持
-                        if (window.matchMedia('(hover: none)').matches) {
-                            const frame = button.closest('.frame');
-                            if (frame) {
-                                // 添加触摸开始事件
-                                frame.addEventListener('touchstart', function() {
-                                    this.classList.add('touch-active');
-
-                                    // 3秒后自动隐藏按钮（除非处于成功状态）
-                                    setTimeout(() => {
-                                        const copyBtn = this.querySelector('.copy-btn');
-                                        if (copyBtn && !copyBtn.classList.contains('success')) {
-                                            this.classList.remove('touch-active');
-                                        }
-                                    }, 3000);
-                                }, { passive: true });
-                            }
-                        }
-
-                        button.setAttribute('data-initialized', 'true');
-                    });
-                }
-
-                // Initialize on page load
-                initializeCopyButtons();
-
-                // Re-initialize after page transitions
-                if (window.swup) {
-                    window.swup.hooks.on('page:view', initializeCopyButtons);
-                }
-
-                // Handle dynamic content loading
-                const observer = new MutationObserver(function(mutations) {
-                    mutations.forEach(function(mutation) {
-                        if (mutation.addedNodes.length > 0) {
-                            initializeCopyButtons();
-                        }
-                    });
-                });
-
-                observer.observe(document.body, {
-                    childList: true,
-                    subtree: true
-                });
-            });
-        `],
         hooks: {
             postprocessRenderedBlock: (context) => {
-                function traverse(node: Element) {
-                    if (node.type === "element" && node.tagName === "pre") {
-                        processCodeBlock(node);
-                        return;
-                    }
-                    if (node.children) {
-                        for (const child of node.children) {
-                            if (child.type === "element") traverse(child);
-                        }
-                    }
-                }
-
                 function processCodeBlock(node: Element) {
                     const copyButton = {
                         type: "element" as const,
                         tagName: "button",
                         properties: {
-                            className: ["copy-btn"],
+                            className: [
+                                "copy-btn"
+                            ],
                             "aria-label": "Copy code",
                         },
                         children: [
@@ -179,7 +22,9 @@ export function pluginCustomCopyButton() {
                                 type: "element" as const,
                                 tagName: "div",
                                 properties: {
-                                    className: ["copy-btn-icon"],
+                                    className: [
+                                        "copy-btn-icon"
+                                    ],
                                 },
                                 children: [
                                     {
@@ -188,7 +33,10 @@ export function pluginCustomCopyButton() {
                                         properties: {
                                             viewBox: "0 -960 960 960",
                                             xmlns: "http://www.w3.org/2000/svg",
-                                            className: ["copy-btn-icon", "copy-icon"],
+                                            className: [
+                                                "copy-btn-icon",
+                                                "copy-icon",
+                                            ],
                                         },
                                         children: [
                                             {
@@ -207,7 +55,10 @@ export function pluginCustomCopyButton() {
                                         properties: {
                                             viewBox: "0 -960 960 960",
                                             xmlns: "http://www.w3.org/2000/svg",
-                                            className: ["copy-btn-icon", "success-icon"],
+                                            className: [
+                                                "copy-btn-icon",
+                                                "success-icon",
+                                            ],
                                         },
                                         children: [
                                             {
@@ -224,14 +75,13 @@ export function pluginCustomCopyButton() {
                             },
                         ],
                     } as Element;
-
                     if (!node.children) {
                         node.children = [];
                     }
-                    (node.children as Element[]).push(copyButton);
+                    node.children.push(copyButton);
                 }
 
-                traverse(context.renderData.blockAst);
+                processCodeBlock(context.renderData.blockAst);
             },
         },
     });
