@@ -122,5 +122,14 @@ document.addEventListener("click", function (e: MouseEvent) {
             // 可以在这里添加用户提示
         });
     }
+
+    if (target && (target.classList.contains("collapse-btn") || target.closest(".collapse-btn"))) {
+        const btn = target.classList.contains("collapse-btn") ? target : target.closest(".collapse-btn");
+        const codeBlock = btn?.closest(".expressive-code");
+        if (codeBlock) {
+            codeBlock.classList.toggle("collapsed");
+            codeBlock.classList.toggle("expanded");
+        }
+    }
 });
 </script>

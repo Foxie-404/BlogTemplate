@@ -58,6 +58,35 @@
         }
     }
 
+
+    .collapse-btn {
+        all: initial;
+        @apply opacity-0 absolute active:scale-90 h-6 w-6 top-2 right-10 text-xs rounded transition-all ease-in-out z-20 cursor-pointer bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] text-[var(--btn-content)];
+    }
+    .frame:hover .collapse-btn {
+        opacity: 1;
+    }
+
+    .collapse-icon {
+        @apply absolute top-1/2 left-1/2 transition -translate-x-1/2 -translate-y-1/2 w-4 h-4 fill-current pointer-events-none;
+    }
+    .expressive-code.collapsed .collapse-icon {
+        @apply -rotate-90;
+    }
+
+    .expressive-code.collapsed pre {
+        @apply max-h-[5.5rem] overflow-hidden;
+    }
+
+    .expressive-code.collapsed .frame {
+        @apply relative;
+    }
+
+    .expressive-code.collapsed .frame::before {
+        content: "";
+        @apply absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[var(--codeblock-bg)] to-transparent pointer-events-none z-10;
+    }
+
     .copy-btn {
         all: initial;
         @apply opacity-0 absolute active:scale-90 h-6 w-6 top-2 right-2 text-xs rounded transition-all ease-in-out z-20 cursor-pointer bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)];
