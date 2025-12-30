@@ -319,8 +319,6 @@
                             if (!code) {
                                 break;
                             }
-                            // 显示加载状态
-                            element.innerHTML = '<div class="mermaid-loading">Rendering diagram...</div>';
                             // 渲染图表
                             const { svg } = await window.mermaid.render(
                                 `mermaid-${Date.now()}-${index}-${attempts}`,
