@@ -346,7 +346,7 @@ export const umamiConfig = {
 // 资料配置
 export const profileConfig: ProfileConfig = {
     // 头像配置 (相对于 /public 目录)
-    avatar: "/assets/images/avatar.png",
+    avatar: "/assets/images/avatar.jpg",
     // 信息配置
     name: "Twilight",
     // 简介配置
