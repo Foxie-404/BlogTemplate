@@ -76,14 +76,14 @@ export const siteConfig: SiteConfig = {
         src: {
             // 桌面壁纸图片 (相对于 /public 目录; 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播)
             desktop: [
-                "/assets/images/desktopWallpaper_1.webp",
-                "/assets/images/desktopWallpaper_2.webp",
-                "/assets/images/desktopWallpaper_3.webp",
+                "/assets/images/desktopWallpaper_1.jpg",
+                "/assets/images/desktopWallpaper_2.jpg",
+                "/assets/images/desktopWallpaper_3.jpg",
             ],
             // 移动壁纸图片 (相对于 /public 目录; 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播)
             mobile: [
-                "/assets/images/mobileWallpaper_1.webp",
-                "/assets/images/mobileWallpaper_2.webp",
+                "/assets/images/mobileWallpaper_1.jpg",
+                "/assets/images/mobileWallpaper_2.jpg",
             ],
         },
         // 壁纸位置 ('top' | 'center' | 'bottom')
